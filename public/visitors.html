@@ -14,6 +14,7 @@
             <a href="visitors.html">Visitors</a>
         </nav>
     </header>
+
     <main>
         <h2>Website Statistics</h2>
 
@@ -23,3 +24,28 @@
             <p><strong>Website lifetime in days:</strong> <span id="lifetimeDays">Loading...</span></p>
         </div>
     </main>
+
+    <footer>
+        <p>*Server is from OMDb</p>
+    </footer>
+
+    <script>
+        async function loadVisitorData() {
+     try {
+                const response = await fetch('/api/visitors');
+                const data = await response.json();
+
+                document.getElementById('totalVisitors').textContent = data.totalVisitors;
+                document.getElementById('startDate').textContent = data.startDate;
+                document.getElementById('lifetimeDays').textContent = data.lifetimeDays;
+            } catch (error) {
+                document.getElementById('totalVisitors').textContent = 'Error';
+                document.getElementById('startDate').textContent = 'Error';
+                document.getElementById('lifetimeDays').textContent = 'Error';
+     }
+        }
+
+        loadVisitorData();
+    </script>
+</body>
+</html>

@@ -63,7 +63,7 @@ async function searchMovies() {
                     <a class="more-info-btn" href="movie.html?id=${movie.imdbID}">More Info</a>
                 </div>
             `;
-        });
+     });
 
         resultsDiv.innerHTML = html;
     } catch (error) {
@@ -91,7 +91,7 @@ async function loadSuggestions(searchText) {
             `;
         });
 
-        suggestionsDiv.innerHTML = html;
+     suggestionsDiv.innerHTML = html;
 
         document.querySelectorAll(".suggestion-item").forEach(item => {
             item.addEventListener("click", function () {

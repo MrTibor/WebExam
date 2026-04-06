@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Details</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Movie Details</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="visitors.html">Visitors</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="movieDetails" class="movie-details-box">
+            <p>Loading movie details...</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>*Server is from OMDb</p>
+    </footer>
+
+    <script>
+        async function loadMovieDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const movieId = params.get('id');
+            const detailsDiv = document.getElementById('movieDetails');
+
+            if (!movieId) {
+                detailsDiv.innerHTML = '<p>No movie selected.</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/movie?id=${encodeURIComponent(movieId)}`);
+                const movie = await response.json();
+
+                if (movie.Response === "False") {
+                    detailsDiv.innerHTML = `<p>${movie.Error}</p>`;
+                    return;
+                }
+
+                const poster = movie.Poster !== "N/A"
+                    ? movie.Poster
+                    : "https://via.placeholder.com/250x370?text=No+Image";
+
+                let ratingsHtml = "";
+                if (movie.Ratings && movie.Ratings.length > 0) {
+                    ratingsHtml = movie.Ratings.map(r => `<li>${r.Source}: ${r.Value}</li>`).join("");
+                } else {
+                    ratingsHtml = "<li>No ratings available</li>";
+                }
+
+    detailsDiv.innerHTML = `
+                    <div class="movie-details-layout">
+                        <div class="movie-poster-side">
+                            <img src="${poster}" alt="${movie.Title}">
+                        </div>
+
+     <div class="movie-info-side">
+                            <h2>${movie.Title}</h2>
+                            <p><strong>Year:</strong> ${movie.Year}</p>
+                            <p><strong>Rated:</strong> ${movie.Rated}</p>
+                            <p><strong>Released:</strong> ${movie.Released}</p>
+                            <p><strong>Runtime:</strong> ${movie.Runtime}</p>
+                            <p><strong>Genre:</strong> ${movie.Genre}</p>
+                            <p><strong>Director:</strong> ${movie.Director}</p>
+                            <p><strong>Writer:</strong> ${movie.Writer}</p>
+                            <p><strong>Actors:</strong> ${movie.Actors}</p>
+                            <p><strong>Language:</strong> ${movie.Language}</p>
+                            <p><strong>Country:</strong> ${movie.Country}</p>
+                            <p><strong>Awards:</strong> ${movie.Awards}</p>
+                            <p><strong>IMDb Rating:</strong> ${movie.imdbRating}</p>
+                            <p><strong>IMDb Votes:</strong> ${movie.imdbVotes}</p>
+                            <p><strong>Type:</strong> ${movie.Type}</p>
+                            <p><strong>Box Office:</strong> ${movie.BoxOffice}</p>
+                            <p><strong>Plot:</strong> ${movie.Plot}</p>
+
+                            <div class="ratings-box">
+                                <h3>Ratings</h3>
+                                <ul>${ratingsHtml}</ul>
+                            </div>
+                        </div>
+     </div>
+                `;
+            } catch (error) {
+                detailsDiv.innerHTML = '<p>Something went wrong while loading movie details.</p>';
+            }
+        }
+
+        loadMovieDetails();
+    </script>
+</body>
+</html>

@@ -11,20 +11,26 @@
         <h1>Movie Search Website</h1>
         <nav>
             <a href="index.html">Home</a>
+            <a href="visitors.html">Visitors</a>
         </nav>
- </header>
+    </header>
 
- <main>
-     <h2>Welcome</h2>
-    <p>This website lets you search for movies and series.</p>
+    <main>
+        <h2>Welcome</h2>
+        <p>This website lets you search for movies and series.</p>
 
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search for a movie...">
+            <button id="searchButton">Search</button>
+            <div id="suggestions" class="suggestions-box"></div>
+        </div>
 
         <div id="results"></div>
- </main>
+    </main>
 
- <footer>
+    <footer>
         <p>*Server is from OMDb</p>
-</footer>
+    </footer>
 
     <script src="script.js"></script>
 </body>
