@@ -8,10 +8,10 @@ const PORT = process.env.PORT || 3000;
 
 const visitorFilePath = path.join(__dirname, 'visitorData.json');
 
-// Serve frontend files
+// Serve frontend files from public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Helper function to read visitor data
+// Read visitor data
 function readVisitorData() {
     try {
         const rawData = fs.readFileSync(visitorFilePath, 'utf8');
@@ -19,17 +19,17 @@ function readVisitorData() {
     } catch (error) {
         return {
             totalVisitors: 0,
-            startDate: new Date().toISOString().split('T')[0]
+            startDate: new Date().toISOString()
         };
     }
 }
 
-// Helper function to save visitor data
+// Save visitor data
 function saveVisitorData(data) {
     fs.writeFileSync(visitorFilePath, JSON.stringify(data, null, 2));
 }
 
-// API route to count a visit
+// Count visitor
 app.get('/api/count-visit', (req, res) => {
     try {
         const visitorData = readVisitorData();
@@ -45,7 +45,7 @@ app.get('/api/count-visit', (req, res) => {
     }
 });
 
-// Search movies
+// Search movies/series by text
 app.get('/api/search', async (req, res) => {
     const searchText = req.query.q;
 
@@ -57,13 +57,14 @@ app.get('/api/search', async (req, res) => {
         const url = `https://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=${encodeURIComponent(searchText)}`;
         const response = await fetch(url);
         const data = await response.json();
+
         res.json(data);
     } catch (error) {
         res.status(500).json({ error: 'Something went wrong while fetching movie data' });
     }
 });
 
-// Movie details
+// Get movie details by IMDb ID
 app.get('/api/movie', async (req, res) => {
     const imdbID = req.query.id;
 
@@ -75,9 +76,36 @@ app.get('/api/movie', async (req, res) => {
         const url = `https://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=${encodeURIComponent(imdbID)}&plot=full`;
         const response = await fetch(url);
         const data = await response.json();
+
         res.json(data);
     } catch (error) {
         res.status(500).json({ error: 'Something went wrong while fetching movie details' });
+    }
+});
+
+// Get movie/series by title
+// Used for Top Movies 2025 and Top Series 2025 pages
+app.get('/api/title', async (req, res) => {
+    const title = req.query.title;
+    const type = req.query.type;
+
+    if (!title) {
+        return res.status(400).json({ error: 'Missing title' });
+    }
+
+    try {
+        let url = `https://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=${encodeURIComponent(title)}&plot=short`;
+
+        if (type) {
+            url += `&type=${encodeURIComponent(type)}`;
+        }
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: 'Something went wrong while fetching title data' });
     }
 });
 
