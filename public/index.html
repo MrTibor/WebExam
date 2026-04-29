@@ -2,40 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Search</title>
+    <title>Movie Explorer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Movie Search Website</h1>
-<nav>
-    <a href="index.html">Home</a>
-    <a href="top-movies.html">Top Movies 2025</a>
-    <a href="top-series.html">Top Series 2025</a>
-    <a href="visitors.html">Visitors</a>
-</nav>
-    </header>
 
-    <main>
-        <h2>Welcome</h2>
-        <p>This website lets you search for movies and series.</p>
+<header>
+    <h1>Movie Explorer</h1>
+    <p class="tagline">Your gateway to movie discovery</p>
 
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Search for a movie...">
-            <button id="searchButton">Search</button>
-            <div id="suggestions" class="suggestions-box"></div>
-        </div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="top-movies.html">Top Movies 2025</a>
+        <a href="top-series.html">Top Series 2025</a>
+        <a href="visitors.html">Visitors</a>
+    </nav>
+</header>
 
-        <div id="results"></div>
-    </main>
+<main>
+<section class="hero-section">
 
-    <footer>
-        <p>*Server is from OMDb</p>
-    </footer>
+    <h2>
+        <span class="discover-text">Discover</span>
+        <span class="movies-text">Movies</span> &
+        <span class="series-text">Series</span>
+    </h2>
 
-    <script src="script.js"></script>
+    <p>Search your favorite titles, explore popular releases, and view detailed movie information in one place.</p>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search for movies or series...">
+        <button id="searchButton">Search</button>
+
+        <div id="suggestions" class="suggestions-box"></div>
+    </div>
+
+</section>
+
+<div id="results"></div>
+
+</main>
+
+<footer>
+    <p>*Movie data is provided by OMDb API</p>
+</footer>
+
+<script src="script.js"></script>
+
 </body>
-
-
 </html>

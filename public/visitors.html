@@ -51,5 +51,17 @@
 
         loadVisitorData();
     </script>
+
+    <script>
+    async function countVisit() {
+        try {
+            await fetch('/api/count-visit');
+        } catch (error) {
+            console.log('Could not count visit');
+        }
+    }
+
+    countVisit();
+</script>
 </body>
 </html>
