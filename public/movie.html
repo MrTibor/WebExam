@@ -56,38 +56,82 @@
                     ratingsHtml = "<li>No ratings available</li>";
                 }
 
-    detailsDiv.innerHTML = `
+                detailsDiv.innerHTML = `
                     <div class="movie-details-layout">
                         <div class="movie-poster-side">
                             <img src="${poster}" alt="${movie.Title}">
                         </div>
 
-     <div class="movie-info-side">
-                            <h2>${movie.Title}</h2>
-                            <p><strong>Year:</strong> ${movie.Year}</p>
-                            <p><strong>Rated:</strong> ${movie.Rated}</p>
-                            <p><strong>Released:</strong> ${movie.Released}</p>
-                            <p><strong>Runtime:</strong> ${movie.Runtime}</p>
-                            <p><strong>Genre:</strong> ${movie.Genre}</p>
-                            <p><strong>Director:</strong> ${movie.Director}</p>
-                            <p><strong>Writer:</strong> ${movie.Writer}</p>
-                            <p><strong>Actors:</strong> ${movie.Actors}</p>
-                            <p><strong>Language:</strong> ${movie.Language}</p>
-                            <p><strong>Country:</strong> ${movie.Country}</p>
-                            <p><strong>Awards:</strong> ${movie.Awards}</p>
-                            <p><strong>IMDb Rating:</strong> ${movie.imdbRating}</p>
-                            <p><strong>IMDb Votes:</strong> ${movie.imdbVotes}</p>
-                            <p><strong>Type:</strong> ${movie.Type}</p>
-                            <p><strong>Box Office:</strong> ${movie.BoxOffice}</p>
-                            <p><strong>Plot:</strong> ${movie.Plot}</p>
+                        <div class="movie-info-side">
+                            <div class="movie-title-row">
+                                <h2>${movie.Title}</h2>
 
-                            <div class="ratings-box">
+                                <select id="infoFilter">
+                                    <option value="all">Show all</option>
+                                    <option value="basic">Basic info</option>
+                                    <option value="people">People</option>
+                                    <option value="ratings">Ratings</option>
+                                    <option value="plot">Plot</option>
+                                </select>
+                            </div>
+
+                            <div class="info-section basic-info">
+                                <p><strong>Year:</strong> ${movie.Year}</p>
+                                <p><strong>Rated:</strong> ${movie.Rated}</p>
+                                <p><strong>Released:</strong> ${movie.Released}</p>
+                                <p><strong>Runtime:</strong> ${movie.Runtime}</p>
+                                <p><strong>Genre:</strong> ${movie.Genre}</p>
+                                <p><strong>Type:</strong> ${movie.Type}</p>
+                                <p><strong>Box Office:</strong> ${movie.BoxOffice}</p>
+                            </div>
+
+                            <div class="info-section people-info">
+                                <p><strong>Director:</strong> ${movie.Director}</p>
+                                <p><strong>Writer:</strong> ${movie.Writer}</p>
+                                <p><strong>Actors:</strong> ${movie.Actors}</p>
+                                <p><strong>Language:</strong> ${movie.Language}</p>
+                                <p><strong>Country:</strong> ${movie.Country}</p>
+                                <p><strong>Awards:</strong> ${movie.Awards}</p>
+                            </div>
+
+                            <div class="info-section plot-info">
+                                <p><strong>Plot:</strong> ${movie.Plot}</p>
+                            </div>
+
+                            <div class="info-section ratings-info ratings-box">
                                 <h3>Ratings</h3>
+                                <p><strong>IMDb Rating:</strong> ${movie.imdbRating}</p>
+                                <p><strong>IMDb Votes:</strong> ${movie.imdbVotes}</p>
                                 <ul>${ratingsHtml}</ul>
                             </div>
                         </div>
-     </div>
+                    </div>
                 `;
+
+                const infoFilter = document.getElementById("infoFilter");
+
+                infoFilter.addEventListener("change", function () {
+                    const selectedValue = infoFilter.value;
+
+                    document.querySelectorAll(".info-section").forEach(section => {
+                        section.style.display = "none";
+                    });
+
+                    if (selectedValue === "all") {
+                        document.querySelectorAll(".info-section").forEach(section => {
+                            section.style.display = "block";
+                        });
+                    } else if (selectedValue === "basic") {
+                        document.querySelector(".basic-info").style.display = "block";
+                    } else if (selectedValue === "people") {
+                        document.querySelector(".people-info").style.display = "block";
+                    } else if (selectedValue === "ratings") {
+                        document.querySelector(".ratings-info").style.display = "block";
+                    } else if (selectedValue === "plot") {
+                        document.querySelector(".plot-info").style.display = "block";
+                    }
+                });
+
             } catch (error) {
                 detailsDiv.innerHTML = '<p>Something went wrong while loading movie details.</p>';
             }

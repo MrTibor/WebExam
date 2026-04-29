@@ -154,3 +154,14 @@ footer {
 .suggestion-item:hover {
     background-color: #f2f2f2;
 }
+
+.movie-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.movie-title-row select {
+    padding: 8px;
+}
