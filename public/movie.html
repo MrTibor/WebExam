@@ -76,7 +76,6 @@
                                     <option value="plot">Plot</option>
                                 </select>
                             </div>
-
                             <div class="info-section basic-info">
                                 <p><strong>Year:</strong> ${movie.Year}</p>
                                 <p><strong>Rated:</strong> ${movie.Rated}</p>
@@ -86,7 +85,6 @@
                                 <p><strong>Type:</strong> ${movie.Type}</p>
                                 <p><strong>Box Office:</strong> ${movie.BoxOffice}</p>
                             </div>
-
                             <div class="info-section people-info">
                                 <p><strong>Director:</strong> ${movie.Director}</p>
                                 <p><strong>Writer:</strong> ${movie.Writer}</p>
@@ -100,6 +98,8 @@
                                 <p><strong>Plot:</strong> ${movie.Plot}</p>
                             </div>
 
+
+
                             <div class="info-section ratings-info ratings-box">
                                 <h3>Ratings</h3>
                                 <p><strong>IMDb Rating:</strong> ${movie.imdbRating}</p>
@@ -107,7 +107,10 @@
                                 <ul>${ratingsHtml}</ul>
                             </div>
                         </div>
-                    </div>
+                 
+                 
+                 
+                        </div>
                 `;
 
                 const infoFilter = document.getElementById("infoFilter");
@@ -118,7 +121,6 @@
                     document.querySelectorAll(".info-section").forEach(section => {
                         section.style.display = "none";
                     });
-
                     if (selectedValue === "all") {
                         document.querySelectorAll(".info-section").forEach(section => {
                             section.style.display = "block";

@@ -330,15 +330,16 @@ footer {
     color: #e50914;
 }
 
+
+
+
 .discover-text {
     color: #3b82f6; /* blue */
 }
-
 .movies-text {
     color: #e50914; /* red */
     text-shadow: 0 0 10px rgba(229, 9, 20, 0.6);
 }
-
 .series-text {
     color: #facc15; /* yellow */
 }

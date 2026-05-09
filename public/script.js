@@ -3,14 +3,8 @@ const searchInput = document.getElementById("searchInput");
 const resultsDiv = document.getElementById("results");
 const suggestionsDiv = document.getElementById("suggestions");
 
-const yearFilter = document.getElementById("yearFilter");
-const typeFilter = document.getElementById("typeFilter");
-const clearFiltersButton = document.getElementById("clearFiltersButton");
-
 let typingTimer;
 const typingDelay = 300;
-
-let allMovies = [];
 
 if (searchButton && searchInput && resultsDiv) {
     searchButton.addEventListener("click", searchMovies);
@@ -24,7 +18,7 @@ if (searchButton && searchInput && resultsDiv) {
 
     searchInput.addEventListener("input", function () {
         clearTimeout(typingTimer);
-
+        
         const value = searchInput.value.trim();
 
         if (value.length < 2) {
@@ -35,15 +29,6 @@ if (searchButton && searchInput && resultsDiv) {
         typingTimer = setTimeout(() => {
             loadSuggestions(value);
         }, typingDelay);
-    });
-
-    yearFilter.addEventListener("input", applyFilters);
-    typeFilter.addEventListener("change", applyFilters);
-
-    clearFiltersButton.addEventListener("click", function () {
-        yearFilter.value = "";
-        typeFilter.value = "";
-        displayMovies(allMovies);
     });
 }
 
@@ -66,49 +51,24 @@ async function searchMovies() {
             return;
         }
 
-        allMovies = data.Search;
-        applyFilters();
+        let html = "";
 
+        data.Search.forEach(movie => {
+            html += `
+                <div class="movie-card">
+                    <img src="${movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/200x300?text=No+Image"}" alt="${movie.Title}">
+                    <h3>${movie.Title}</h3>
+                    <p>Year: ${movie.Year}</p>
+                    <p>Type: ${movie.Type}</p>
+                    <a class="more-info-btn" href="movie.html?id=${movie.imdbID}">More Info</a>
+                </div>
+            `;
+     });
+
+        resultsDiv.innerHTML = html;
     } catch (error) {
         resultsDiv.innerHTML = "<p>Something went wrong.</p>";
     }
-}
-
-function applyFilters() {
-    const selectedYear = yearFilter.value.trim();
-    const selectedType = typeFilter.value;
-
-    let filteredMovies = allMovies.filter(movie => {
-        const matchesYear = selectedYear === "" || movie.Year === selectedYear;
-        const matchesType = selectedType === "" || movie.Type === selectedType;
-
-        return matchesYear && matchesType;
-    });
-
-    displayMovies(filteredMovies);
-}
-
-function displayMovies(movies) {
-    if (!movies || movies.length === 0) {
-        resultsDiv.innerHTML = "<p>No movies match the selected filters.</p>";
-        return;
-    }
-
-    let html = "";
-
-    movies.forEach(movie => {
-        html += `
-            <div class="movie-card">
-                <img src="${movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/200x300?text=No+Image"}" alt="${movie.Title}">
-                <h3>${movie.Title}</h3>
-                <p>Year: ${movie.Year}</p>
-                <p>Type: ${movie.Type}</p>
-                <a class="more-info-btn" href="movie.html?id=${movie.imdbID}">More Info</a>
-            </div>
-        `;
-    });
-
-    resultsDiv.innerHTML = html;
 }
 
 async function loadSuggestions(searchText) {
@@ -125,13 +85,13 @@ async function loadSuggestions(searchText) {
 
         data.Search.slice(0, 5).forEach(movie => {
             html += `
-                <div class="suggestion-item" data-id="${movie.imdbID}">
+                <div class="suggestion-item" data-id="${movie.imdbID}" data-title="${movie.Title}">
                     ${movie.Title} (${movie.Year})
                 </div>
             `;
         });
 
-        suggestionsDiv.innerHTML = html;
+     suggestionsDiv.innerHTML = html;
 
         document.querySelectorAll(".suggestion-item").forEach(item => {
             item.addEventListener("click", function () {
@@ -139,7 +99,6 @@ async function loadSuggestions(searchText) {
                 window.location.href = `movie.html?id=${movieId}`;
             });
         });
-
     } catch (error) {
         suggestionsDiv.innerHTML = "";
     }
