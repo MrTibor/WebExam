@@ -71,6 +71,7 @@ async function searchMovies() {
     }
 }
 
+// LoadSuggestions was promted by ChatGPT to help with error handling, as the intial code had errors.
 async function loadSuggestions(searchText) {
     try {
         const response = await fetch(`/api/search?q=${encodeURIComponent(searchText)}`);

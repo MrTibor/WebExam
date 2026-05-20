@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 const visitorFilePath = path.join(__dirname, 'visitorData.json');
 
-// Serve frontend files from public folder - promted with ChatGPT 
+// Serve frontend files from public folder - Method promted with ChatGPT 
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Read visitor data

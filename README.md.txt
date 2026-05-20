@@ -27,3 +27,6 @@ npm start
 
 http://localhost:3000
 
+Notes:
+Do make it easier, I have deployed the website through Render.com (connected to my GitHub)
+and the link is: https://webexam-h5e4.onrender.com/
